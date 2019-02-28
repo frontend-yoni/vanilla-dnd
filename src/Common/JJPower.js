@@ -44,7 +44,7 @@ function JJPower() {
 
         /* Inner Function */
         function repeatMe(frameTime = 0) {
-            if(!animationObj.isRunning){ //Sorry, hate returning in the middle of function, but really have to
+            if (!animationObj.isRunning) { //Sorry, hate returning in the middle of function, but really have to
                 return;
             }
             frameFunc(frameTime);
@@ -130,25 +130,21 @@ function JJPower() {
     };
 
     JJPower.prototype.jjAddEventListener = function (eventName, callBack, useCapture) {
-        let jjEventName = eventName;
-        if (JJPower.isMobile) {
-            jjEventName = getMobileEventName(eventName, this);
+        let mobileEvent = getMobileEventName(eventName, this);
+        if (mobileEvent) {
+            this.addEventListener(mobileEvent, callBack, useCapture);
         }
-        if (jjEventName) {
-            this.addEventListener(jjEventName, callBack, useCapture);
-        }
+        this.addEventListener(eventName, callBack, useCapture);
 
         return this;
     };
 
     JJPower.prototype.jjRemoveEventListener = function (eventName, callBack, useCapture) {
-        let jjEventName = eventName;
-        if (JJPower.isMobile) {
-            jjEventName = getMobileEventName(eventName, this);
+        let mobileEvent = getMobileEventName(eventName, this);
+        if (mobileEvent) {
+            this.removeEventListener(mobileEvent, callBack, useCapture);
         }
-        if (jjEventName) {
-            this.removeEventListener(jjEventName, callBack, useCapture);
-        }
+        this.removeEventListener(eventName, callBack, useCapture);
 
         return this;
     };
@@ -407,7 +403,7 @@ function JJPower() {
 
         /* Inner Functions */
         function repeatAnimation(nowTime) {
-            if(!animationObj.isRunning){ //Sorry, hate returning in the middle of function, but really have to
+            if (!animationObj.isRunning) { //Sorry, hate returning in the middle of function, but really have to
                 return;
             }
 
@@ -430,7 +426,7 @@ function JJPower() {
             animationObj.id = id;
         }
 
-        function getProgressTime(nowTime, startTime){
+        function getProgressTime(nowTime, startTime) {
             let prog = nowTime - startTime;
             prog = Math.max(0, prog);
             prog = Math.min(animationDuration, prog);
@@ -495,6 +491,10 @@ function JJPower() {
             default:
                 return origEventName
         }
+    }
+
+    function getCorrespondingMobileEvent(origEventName) {
+
     }
 
     /** CSS Modules **/

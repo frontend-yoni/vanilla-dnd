@@ -99,6 +99,7 @@ function SportyDragAndDropManager() {
 
     /** Event Listeners **/
     function onMouseDown(e) {
+        genUtil.updateXYForTocuchEvent(e);
         ddItem = domUtil.getDraggableItem(e);
         if (e.button === 2) { //Right click
             return;
@@ -116,11 +117,11 @@ function SportyDragAndDropManager() {
     }
 
     function onMouseMove(e) {
+        genUtil.updateXYForTocuchEvent(e);
         currentEvent = e;
         if (!isDragging) {
             onDragStart(e);
         }
-        e.preventDefault();
 
         isDragging = true; //Only after first move consider it a drag.
     }

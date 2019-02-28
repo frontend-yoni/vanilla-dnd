@@ -75,13 +75,21 @@ class JJGeneralUtils {
         return origString.replace(new RegExp(oldChar, 'g'), newChar);
     }
 
+    /** Events **/
+    updateXYForTocuchEvent(e) { //In case of touch event, set clientX/Y by e.touches
+        if (e.touches) {
+            e.clientX = e.touches[0].clientX;
+            e.clientY = e.touches[0].clientY;
+        }
+    }
+
     /** Style **/
     getNumValOfStyle(element, prop) {
         return +getComputedStyle(element)[prop].replace('px', '') || 0;
     }
 
     /** Dates **/
-    getNowTime(){
+    getNowTime() {
         return new Date().getTime();
     }
 

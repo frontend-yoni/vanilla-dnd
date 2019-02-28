@@ -19,6 +19,7 @@ html.SportyDragAndDropActivated body * {
 html.SportyDragAndDropActivated .SportyDDActivatedContainer {
     cursor: var(--SportyDragAndDropCursor);
     overflow-anchor: none;
+    touch-action: none;
 }
 
 .SportyDDActivatedContainer > * {
