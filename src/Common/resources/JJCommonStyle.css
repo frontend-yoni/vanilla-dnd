@@ -1,0 +1,63 @@
+/** Spinner **/
+.JJSpinnerContainer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 12%;
+    background: rgba(100, 100, 100, 0.5);
+    overflow: hidden;
+}
+
+.JJSpinnerPapa {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 50%;
+    left: 50%;
+}
+
+.JJSpinnerBar {
+    animation: spinnerSpin 1.2s linear infinite;
+    border-radius: 5px;
+    background-color: white;
+    position: absolute;
+    width: 20%;
+    height: 7.8%;
+    top: -3.9%;
+    left: -10%;
+}
+
+@keyframes spinnerSpin {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.15;
+    }
+}
+/** Spinner End. **/
+
+/** Drag and Drop **/
+.DisableUserSelect{
+    user-select: none;
+}
+
+.QuickDragAndDropUtilMask{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    cursor: pointer;
+}
+
+.QuickDragAndDropUtilHandle{
+    cursor: pointer;
+}
+
+.QuickDragAndDropUtilOrigElement{
+
+}
+/** Drag and Drop End. **/

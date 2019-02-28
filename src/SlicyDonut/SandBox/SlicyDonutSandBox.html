@@ -1,0 +1,131 @@
+<html lang="en">
+<head>
+    <!-- inject:css -->
+    <link rel="stylesheet" href="../../Common/resources/JJCommonStyle.css">
+    <link rel="stylesheet" href="../resources/SlicyDonut.css">
+    <link rel="stylesheet" href="../../DragAndDrop/resources/SportyDragAndDrop.css">
+    <link rel="stylesheet" href="../../Gauge/resources/GaugeBonBon.css">
+    <!-- endinject -->
+
+    <!-- inject:js -->
+    <script src="../../Common/FormattingUtil.js"></script>
+    <script src="../../Common/JJGeneralUtils.js"></script>
+    <script src="../../Common/JJPower.js"></script>
+    <script src="../SlicyDonut.js"></script>
+    <script src="../../Gauge/GaugeBonBon.js"></script>
+    <script src="../../Common/svg/SVGPathUtil.js"></script>
+    <script src="../../Common/svg/SVGPieHelper.js"></script>
+    <script src="SlicyDonutSandBox.js"></script>
+    <script src="../labels/SlicyDonutCenterLabel.js"></script>
+    <script src="../labels/SlicyDonutCenterLabelBubble.js"></script>
+    <script src="../draw/SlicyDonutDrawUtil.js"></script>
+    <script src="../draw/SlicyDonutNotchUtil.js"></script>
+    <script src="../draw/SlicyDonutPathCalulator.js"></script>
+    <script src="../manager/UIManager_SlicyDonut.js"></script>
+    <script src="../../DragAndDrop/dom/SportyDDCloneUtil.js"></script>
+    <script src="../../DragAndDrop/dom/SportyDDDomUtil.js"></script>
+    <script src="../state/DOMState_SlicyDonut.js"></script>
+    <script src="../state/DataState_SlicyDonut.js"></script>
+    <script src="../../DragAndDrop/main/SportyDragAndDropManager.js"></script>
+    <script src="../../DragAndDrop/mock/SportyDDShowcaseMock.js"></script>
+    <script src="../../DragAndDrop/scroll/DragAndDropScrollManager.js"></script>
+    <script src="../util/AnimationUtil_SlicyDonut.js"></script>
+    <script src="../util/InteractionUtil_SliceDonut.js"></script>
+    <script src="../../Gauge/calculation/DonutPathCalculator.js"></script>
+    <script src="../../Gauge/calculation/GradientForGaugeCalculator.js"></script>
+    <script src="../../Gauge/gradient/GaugeGradientUtil.js"></script>
+    <script src="../../Gauge/manager/DOMState_GaugeBonBon.js"></script>
+    <script src="../../Gauge/manager/DataState_GaugeBonBon.js"></script>
+    <script src="../../Gauge/manager/UIManager_OverlappingGauge.js"></script>
+    <script src="../../Gauge/draw/GaugeGradientBuilder.js"></script>
+    <script src="../../Gauge/draw/GaugeRectanglesBuilder.js"></script>
+    <script src="../../DragAndDrop/specific/simple/SportySimpleListDD.js"></script>
+    <script src="../../DragAndDrop/specific/util/SportyListDnDInteractionUtil.js"></script>
+    <!-- endinject -->
+</head>
+
+<style>
+    html, body {
+        position: absolute;
+        margin: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .testDiv {
+        position: absolute;
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+
+        grid-template-columns: auto auto auto;
+        grid-row-gap: 15px;
+        grid-column-gap: 15px;
+
+        flex-wrap: wrap;
+        align-content: baseline;
+    }
+
+    .compDiv{
+        flex-basis: 220px;
+        min-width: 220px;
+        max-width: 220px;
+
+        margin: 20px;
+
+        height: 220px;
+        position: relative;
+    }
+
+    .compDiv::after{
+        content: '';
+        width: 1px;
+        height: 100%;
+        position: absolute;
+        right: -20px;
+        background: #ccc;
+    }
+
+    .PlusDiv{
+        background: url('data:image/png;base64,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');
+        width: 220px;
+        height: 220px;
+        margin: 20px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+
+        cursor: pointer;
+
+        opacity: 0.8;
+        transition: opacity 0.2s;
+    }
+
+    .PlusDiv:hover{
+        opacity: 0.9;
+    }
+
+    .PlusDiv:active{
+        opacity: 1;
+        transition: none;
+    }
+</style>
+
+<script>
+    let testDiv;
+    let sandBox = new SlicyDonutSandBox();
+
+    window.onload = function () {
+        testDiv = JJPower.query('.testDiv');
+        sandBox.setTestDiv(testDiv);
+        sandBox.drawComponent();
+    }
+</script>
+
+<body>
+    <div class="testDiv">
+
+    </div>
+</body>
+</html>

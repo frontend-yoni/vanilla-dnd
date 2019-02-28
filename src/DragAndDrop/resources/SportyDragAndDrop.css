@@ -1,0 +1,144 @@
+/** Base **/
+:root {
+    --SportyDragAndDropCursor: grab;
+    --SportyDragAndDropRelaseAnimationDuration: 0.2s;
+}
+
+html.SportyDragAndDropActivated {
+    cursor: var(--SportyDragAndDropCursor);
+}
+
+html.SportyDragAndDropActivated body * {
+    pointer-events: none !important;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+html.SportyDragAndDropActivated .SportyDDActivatedContainer {
+    cursor: var(--SportyDragAndDropCursor);
+    overflow-anchor: none;
+}
+
+.SportyDDActivatedContainer > * {
+    pointer-events: none;
+}
+
+html.SportyDDReleaseSequenceInitiated {
+    cursor: default;
+}
+
+html.SportyDDReleaseSequenceInitiated .SportyDDActivatedContainer {
+    pointer-events: none;
+}
+
+.MyKidsAreDraggableContainer > * {
+    cursor: var(--SportyDragAndDropCursor);
+}
+
+/** Base End **/
+
+/** Clone **/
+.SportyDDCloneContainer {
+    position: fixed;
+    z-index: 9999999;
+    pointer-events: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: none !important;
+}
+
+.SportyDDCloneContainer > .SportyDDActualClone {
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.25);
+    margin: 0 !important;
+    border-radius: 3px;
+    overflow: hidden;
+    border: none;
+}
+
+html.SportyDDReleaseSequenceInitiated .SportyDDCloneContainer > .SportyDDActualClone {
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
+    border-radius: 0;
+}
+
+.SportyDDCloneReleaseAnimation {
+    transition: var(--SportyDragAndDropRelaseAnimationDuration) transform;
+}
+
+/** Clone End. **/
+
+/** Specific **/
+.SportySimpleListDDDrpHint {
+    --dndHintHeight: 80px;
+    height: var(--dndHintHeight);
+    display: grid;
+    place-items: center;
+    font-size: 16px;
+    margin-bottom: 8px;
+
+    border-top: dashed 2px #2D7EE0;
+    border-bottom: dashed 2px #2D7EE0;
+    color: #2D7EE0;
+
+    background-color: #FFF;
+    user-select: none;
+
+    box-sizing: border-box;
+    font-family: Arial;
+
+    position: relative;
+    z-index: -1;
+}
+
+.SportySimpleListDDDrpHint.DnDHideHint {
+    visibility: hidden;
+}
+
+.SportySimpleListDDDrpHint.NoMarginBetweenItemsSoAddInternally {
+    margin: 0;
+    display: flex;
+    align-items: stretch;
+    border: none;
+}
+
+.SportySimpleListDDDrpHint_innerDiv {
+    border-top: dashed 2px #2D7EE0;
+    border-bottom: dashed 2px #2D7EE0;
+    width: 100%;
+    display: grid;
+    place-items: center;
+}
+
+.SportyDDActivatedContainer .SportySimpleListDDDrpHint.animateHeightOfHint {
+    transition: height var(--SportyDragAndDropRelaseAnimationDuration);
+}
+
+.SportyDDActivatedContainer .SportySimpleListDDDrpHint.animateHeightOfHint.ease {
+    transition: height var(--SportyDragAndDropRelaseAnimationDuration) ease-out;
+}
+
+.SportyDDActivatedContainer > *:not(.SportyDDCloneContainer) {
+    transition: transform var(--SportyDragAndDropRelaseAnimationDuration) linear;
+}
+
+.SkyDnDListContainer.SportyDDActivatedContainer > div {
+    border-bottom: 1px dashed rgb(204, 204, 204) !important;
+}
+
+.SkyDnDListContainer.SportyDDActivatedContainer > div.SportySimpleListDDDrpHint,
+.SkyDnDListContainer.SportyDDActivatedContainer > div.SportyDDCloneContainer {
+    border-bottom: none !important;
+}
+
+.SkyDnDListContainer.SportyDDActivatedContainer > div.draggableItemAboveHint{
+    border-bottom-color: transparent !important;
+}
+
+/** Specific End. **/
+
+/** Maybe **/
+
+/** Maybe End **/

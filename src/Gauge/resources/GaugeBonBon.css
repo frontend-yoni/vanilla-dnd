@@ -1,0 +1,71 @@
+.GaugeBonBonSVG {
+    --animationDuration: 1s;
+}
+
+.GaugeBonBonSVG {
+    position: relative;
+}
+
+svg.hideBgArc .BGRectangles {
+    display: none;
+}
+
+.OverlappingGaugePath {
+    opacity: 1;
+    stroke: white;
+    fill: none;
+    transition: var(--animationDuration) opacity, 1.5s stroke-width;
+}
+
+.CircleBGRingStroke {
+    stroke: #f2f2f2;
+    fill: none;
+    opacity: 1;
+}
+
+.GaugeBonBonSVG.activateGaugeIntro .OverlappingGaugePath {
+    opacity: 0;
+    stroke-width: 0 !important;
+    transition: none;
+}
+
+.GaugeBonBonSVG.activateGaugeHide .OverlappingGaugePath {
+    opacity: 0;
+    stroke-width: 0 !important;
+}
+
+.GaugeBonBonValueP {
+    position: absolute;
+    top: calc(50% - 10px);
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-size: 28px;
+    user-select: none;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: initial;
+    white-space: nowrap;
+    color: #111;
+}
+
+.GaugeBonBonLabelP {
+    position: absolute;
+    top: calc(50% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    font-size: 14px;
+    user-select: none;
+    margin: 0;
+    overflow: hidden;
+    line-height: initial;
+    color: #666;
+}
+
+.GaugeBonBonPapaDiv.GaugeBonBonNoData .GaugeBonBonValueP {
+    font-size: 42px;
+    top: calc(50% - 30px);
+    color: #999;
+}

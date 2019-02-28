@@ -1,0 +1,149 @@
+:root {
+    --SlicyDonutColor0: #1a237e;
+    --SlicyDonutColor1: #e95184;
+    --SlicyDonutColor2: #f27e8a;
+    --SlicyDonutColor3: #f8a490;
+    --SlicyDonutColor4: #fdc996;
+    --SlicyDonutBGColor: white;
+
+    --SlicyDonutNotchWidth: 2px;
+    --SlicyDonutStrokeWidth: 10px;
+    --SlicyDonutStrokeWidth_hover: 15px;
+
+    --SagarEaseOutOnHover: cubic-bezier(0, 0, 0.4, 1);
+    --SagarEaseInOnLeave: cubic-bezier(0.5, 0, 1, 1);
+    --HoverDuration: 160ms;
+    --LabelFadeInDuration: 160ms;
+    --LabelFadeOutDuration: 160ms;
+}
+
+.SlicyDonutSVG.AnimatingSlices + .SlicyDonutLabelDiv{
+    --LabelFadeInDuration: 250ms;
+    --LabelFadeOutDuration: 250ms;
+}
+
+.SlicyDonutSVG {
+    cursor: default;
+    width: 100%;
+    height: 100%;
+    pointer-events: painted;
+}
+
+.SlicyDonutPath {
+    fill: none;
+    stroke-width: var(--SlicyDonutStrokeWidth);
+    transition: stroke-width var(--HoverDuration) var(--SagarEaseOutOnHover), opacity var(--HoverDuration) var(--SagarEaseOutOnHover);
+}
+
+.SlicyDonutPath_0 {
+    stroke: var(--SlicyDonutColor0);
+}
+
+.SlicyDonutPath_1 {
+    stroke: var(--SlicyDonutColor1);
+}
+
+.SlicyDonutPath_2 {
+    stroke: var(--SlicyDonutColor2);
+}
+
+.SlicyDonutPath_3 {
+    stroke: var(--SlicyDonutColor3);
+}
+
+.SlicyDonutPath_4 {
+    stroke: var(--SlicyDonutColor4);
+}
+
+.SlicyDonutMaskCircle {
+    fill: var(--SlicyDonutBGColor);
+}
+
+.SlicyDonutNotchG {
+    pointer-events: none;
+}
+
+.SlicyDonutNotch {
+    stroke-width: var(--SlicyDonutNotchWidth);
+    fill: none;
+    stroke: var(--SlicyDonutBGColor);
+}
+
+/** Animation **/
+.SlicyDonutSVG.AnimatingSlices {
+    pointer-events: none;
+}
+
+.SlicyDonutSVG.AnimatingSlices .SlicyDonutPath {
+    opacity: 0.5;
+}
+
+.SlicyDonutSVG.AnimatingSlices .SlicyDonutPath.CurrentAnimatingSlice {
+    opacity: 1;
+}
+
+/** Hover **/
+.SlicyDonutHoverState .SlicyDonutPath.SlicyDonutHoverSlice {
+    stroke-width: var(--SlicyDonutStrokeWidth_hover);
+    opacity: 1;
+    transition: stroke-width var(--HoverDuration) var(--SagarEaseInOnLeave), opacity var(--HoverDuration) var(--SagarEaseInOnLeave);
+}
+
+.SlicyDonutHoverState .SlicyDonutPath {
+    opacity: 0.5;
+}
+
+/** Label **/
+.SlicyDonutLabelDiv {
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.SlicyDonutCenterLabelPlatesPapa {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.SlicyDonutCenterLabelPlate {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    opacity: 0;
+}
+
+.SlicyDonutCenterLabelPlate.visible {
+    opacity: 1;
+}
+
+.SlicyDonutLabelDiv p {
+    font-family: Arial;
+    margin: 0;
+    color: white;
+    text-align: center;
+    width: 100%;
+}
+
+p.SlicyDonutCenterLabelValue {
+    position: absolute;
+    bottom: 50%;
+    font-weight: 600;
+    font-size: 28px;
+    color: #333;
+}
+
+p.SlicyDonutCenterLabelText {
+    position: absolute;
+    top: 50%;
+    margin-top: 10px;
+    font-size: 16px;
+    color: #666;
+}}
