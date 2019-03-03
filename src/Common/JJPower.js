@@ -129,22 +129,22 @@ function JJPower() {
         return this;
     };
 
-    JJPower.prototype.jjAddEventListener = function (eventName, callBack, useCapture) {
+    JJPower.prototype.jjAddEventListener = function (eventName, callBack, capture, options) {
         let mobileEvent = getMobileEventName(eventName, this);
         if (mobileEvent) {
-            this.addEventListener(mobileEvent, callBack, useCapture);
+            this.addEventListener(mobileEvent, callBack, {capture, ...options});
         }
-        this.addEventListener(eventName, callBack, useCapture);
+        this.addEventListener(eventName, callBack, {capture, ...options});
 
         return this;
     };
 
-    JJPower.prototype.jjRemoveEventListener = function (eventName, callBack, useCapture) {
+    JJPower.prototype.jjRemoveEventListener = function (eventName, callBack, capture) {
         let mobileEvent = getMobileEventName(eventName, this);
         if (mobileEvent) {
-            this.removeEventListener(mobileEvent, callBack, useCapture);
+            this.removeEventListener(mobileEvent, callBack, {capture});
         }
-        this.removeEventListener(eventName, callBack, useCapture);
+        this.removeEventListener(eventName, callBack, {capture});
 
         return this;
     };

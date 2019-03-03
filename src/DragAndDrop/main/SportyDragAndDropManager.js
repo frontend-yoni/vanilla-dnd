@@ -78,7 +78,7 @@ function SportyDragAndDropManager() {
     /** Private Functions **/
     function makeKidsDraggable() {
         initializeIfNeeded();
-        ddTargetContainer.jjAddEventListener('mousedown', onMouseDown);
+        ddTargetContainer.jjAddEventListener('mousedown', onMouseDown, false, {passive: true});
     }
 
     function startDDManagementAnimation() {
@@ -111,7 +111,7 @@ function SportyDragAndDropManager() {
         externalAPI.onDown(e);
         startEvent = e;
         document.jjAddEventListener('mouseup', onMouseUp);
-        document.jjAddEventListener('mousemove', onMouseMove);
+        document.jjAddEventListener('mousemove', onMouseMove, false, {passive: true});
 
         isDragging = false;
     }
@@ -124,6 +124,7 @@ function SportyDragAndDropManager() {
         }
 
         isDragging = true; //Only after first move consider it a drag.
+
     }
 
     function onMouseUp() {
