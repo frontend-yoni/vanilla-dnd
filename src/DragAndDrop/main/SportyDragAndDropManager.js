@@ -117,6 +117,8 @@ function SportyDragAndDropManager() {
     }
 
     function onMouseMove(e) {
+        e.preventDefault();
+
         genUtil.updateXYForTocuchEvent(e);
         currentEvent = e;
         if (!isDragging) {
