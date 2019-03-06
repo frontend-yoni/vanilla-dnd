@@ -78,7 +78,7 @@ function SportyDragAndDropManager() {
     /** Private Functions **/
     function makeKidsDraggable() {
         initializeIfNeeded();
-        ddTargetContainer.jjAddEventListener('mousedown', onMouseDown);
+        ddTargetContainer.jjAddEventListener('mousedown', onMouseDown, false, { passive: false });
     }
 
     function startDDManagementAnimation() {
@@ -99,6 +99,9 @@ function SportyDragAndDropManager() {
 
     /** Event Listeners **/
     function onMouseDown(e) {
+        if (e.touches) {
+            e.preventDefault();
+        }
         genUtil.updateXYForTocuchEvent(e);
         ddItem = domUtil.getDraggableItem(e);
         if (e.button === 2) { //Right click
@@ -111,7 +114,7 @@ function SportyDragAndDropManager() {
         externalAPI.onDown(e);
         startEvent = e;
         document.jjAddEventListener('mouseup', onMouseUp);
-        document.jjAddEventListener('mousemove', onMouseMove, false, {passive: false});
+        document.jjAddEventListener('mousemove', onMouseMove, false, { passive: false });
 
         isDragging = false;
     }
