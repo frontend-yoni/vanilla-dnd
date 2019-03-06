@@ -16,7 +16,6 @@ function SportySimpleListDD(noMarginBetweenItems, restoreDomWhenDone) {
     /* Measurements */
     let hintFullHeight;
     let listBCRect;
-    let hintBCRect_initial;
     let initialScrollTop;
     let initialScrollHeight;
     let scrollTop;
@@ -102,7 +101,6 @@ function SportySimpleListDD(noMarginBetweenItems, restoreDomWhenDone) {
         preCalculations(item);
         introduceDropHint();
         setInitialMeasurements();
-        updateShiftItemTopRightAfterHintIntro();
     }
 
     function onMove(item, mouseEvent) {
@@ -124,18 +122,18 @@ function SportySimpleListDD(noMarginBetweenItems, restoreDomWhenDone) {
             releaseDelayTime = 0;
             updateDOMOnRelease();
         }
-        interUtil.clearEarlierDDClasses(listDiv);
     }
 
     function onComplete(item, mouseEvent) {
         isDragging = false;
         resetDOMAfterDrop();
         externalAPI.onComplete(origIndex, currentDropIndex, item);
+        interUtil.clearEarlierDDClasses(listDiv);
     }
 
     /** Interaction **/
     function rearrangeItemsIfNeeded(triggeredByMouseMove) { //If not mousemove this was called by scroll
-        if (interUtil.getIsMouseStillOnSamePositionRelativeToShiftItem(shiftItem, currentMouseEvent, dropHintDiv, triggeredByMouseMove)) {
+        if (interUtil.getIsMouseStillOnSamePositionRelativeToShiftItem(shiftItem, currentMouseEvent, dropHintDiv, listBCRect, scrollTop, triggeredByMouseMove)) {
             return;
         }
         shiftItem = undefined;
@@ -228,7 +226,7 @@ function SportySimpleListDD(noMarginBetweenItems, restoreDomWhenDone) {
 
     /** Calculations **/
     function getDropIndex(mouseEvent) {
-        let relativeY = mouseEvent.clientY - listBCRect.top;
+        let relativeY = mouseEvent.clientY - listBCRect.top + scrollTop;
         let itemTop = firstVisibleRelativeTop;
         let match;
         let height;
@@ -271,22 +269,21 @@ function SportySimpleListDD(noMarginBetweenItems, restoreDomWhenDone) {
     /** Measurements **/
     function setInitialMeasurements() {
         listBCRect = calculateActualBCRect();
-        updateHitOrigJJTop(hintBCRect_initial.top);
         scrollTop = scrollDiv.scrollTop;
         updateItemsJJTop();
+        dropHintDiv.origJJTop = dropHintDiv.jjTop;
         updateVisibleIndices();
     }
 
     function updateVisibleIndices() {
         visibleStartIndex = -1;
         visibleEndIndex = -1;
-        let bcTop = listBCRect.top;
         let visible;
         let height;
 
         for (let i = 0; i < itemArray.length; i++) {
             height = getFullHeightByIndex(i);
-            visible = getIsVisible(height, itemArray[i].jjTop - bcTop);
+            visible = getIsVisible(height, itemArray[i].jjTop);
 
             if (visible && visibleStartIndex < 0) { //First visible identified
                 visibleStartIndex = i;
@@ -303,11 +300,11 @@ function SportySimpleListDD(noMarginBetweenItems, restoreDomWhenDone) {
         if (firstVisibleElement === origDragItem) {
             firstVisibleElement = dropHintDiv;
         }
-        firstVisibleRelativeTop = firstVisibleElement.jjTop - bcTop;
+        firstVisibleRelativeTop = firstVisibleElement.jjTop;
     }
 
     function updateItemsJJTop() {
-        let itemTop = listBCRect.top - scrollTop;
+        let itemTop = 0;
         let height;
 
         for (let i = 0; i < itemArray.length; i++) {
@@ -318,15 +315,9 @@ function SportySimpleListDD(noMarginBetweenItems, restoreDomWhenDone) {
         dropHintDiv.jjTop = itemArray[currentDropIndex].jjTop;
     }
 
-    function updateShiftItemTopRightAfterHintIntro() {
-        if (shiftItem) {
-            /*let heightDiff = hintFullHeight - origDragItem.jjFullHeight;
-            shiftItem.jjTop += heightDiff;*/
-        }
-    }
-
     function getIsVisible(itemHeight, relativeItemTop) {
-        return (relativeItemTop + itemHeight > 0) && (relativeItemTop < listBCRect.height);
+        let itemTop = relativeItemTop - scrollTop;
+        return (itemTop + itemHeight > 0) && (itemTop < listBCRect.height);
     }
 
     function calcFullHeight(item, naiveHeight) {
@@ -404,8 +395,7 @@ function SportySimpleListDD(noMarginBetweenItems, restoreDomWhenDone) {
     }
 
     function initialHintPositionCalculations() {
-        hintBCRect_initial = dropHintDiv.getBoundingClientRect();
-        hintFullHeight = calcFullHeight(dropHintDiv, hintBCRect_initial.height);
+        hintFullHeight = calcFullHeight(dropHintDiv, dropHintDiv.getBoundingClientRect().height);
         initialScrollTop = scrollDiv.scrollTop;
     }
 
@@ -443,17 +433,11 @@ function SportySimpleListDD(noMarginBetweenItems, restoreDomWhenDone) {
         return bcRect;
     }
 
-    function updateHitOrigJJTop(jjTop) {
-        dropHintDiv.origJJTop = jjTop;
-    }
-
     /** Event Listeners **/
     function onInnerScroll(e) {
         scrollTop = scrollDiv.scrollTop;
         bcTopDiff = scrollTop - initialScrollTop;
-        updateHitOrigJJTop(hintBCRect_initial.top - bcTopDiff);
         e.innerScroll_SportySimpleListDD = true;
-        updateItemsJJTop();
         updateVisibleIndices();
         rearrangeItemsIfNeeded();
 
@@ -465,9 +449,6 @@ function SportySimpleListDD(noMarginBetweenItems, restoreDomWhenDone) {
             return;
         }
         listBCRect = calculateActualBCRect();
-        hintBCRect_initial = dropHintDiv.getBoundingClientRect();
-        updateHitOrigJJTop(hintBCRect_initial.top);
-        updateItemsJJTop();
         updateVisibleIndices();
     }
 

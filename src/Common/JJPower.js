@@ -129,12 +129,13 @@ function JJPower() {
         return this;
     };
 
-    JJPower.prototype.jjAddEventListener = function (eventName, callBack, capture, options) {
+    JJPower.prototype.jjAddEventListener = function (eventName, callBack, capture, options = {}) {
         let mobileEvent = getMobileEventName(eventName, this);
+        let fullOptions = Object.assign({capture}, options);
         if (mobileEvent) {
-            this.addEventListener(mobileEvent, callBack, {capture, ...options});
+            this.addEventListener(mobileEvent, callBack, fullOptions);
         }
-        this.addEventListener(eventName, callBack, {capture, ...options});
+        this.addEventListener(eventName, callBack, fullOptions);
 
         return this;
     };

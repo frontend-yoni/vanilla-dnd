@@ -11,16 +11,12 @@ function SportyListDnDInteractionUtil() {
     let dropHintDiv;
 
     /** Public APIs **/
-    this.getIsMouseStillOnSamePositionRelativeToShiftItem = function (shiftItem, currentMouseEvent, dropHintDiv, triggeredByMouseMove) {
-        return getIsMouseStillOnSamePositionRelativeToShiftItem(shiftItem, currentMouseEvent, dropHintDiv, triggeredByMouseMove);
+    this.getIsMouseStillOnSamePositionRelativeToShiftItem = function (shiftItem, currentMouseEvent, dropHintDiv, listBCRect, scrollTop, triggeredByMouseMove) {
+        return getIsMouseStillOnSamePositionRelativeToShiftItem(shiftItem, currentMouseEvent, dropHintDiv, listBCRect, scrollTop, triggeredByMouseMove);
     };
 
     this.shiftRelevantItems = function (listDiv, itemsArr, currentIndex, prevIndex, origHIntIndex, hintHeight, dropHintDiv) {
         return shiftRelevantItems(listDiv, itemsArr, currentIndex, prevIndex, origHIntIndex, hintHeight, dropHintDiv);
-    };
-
-    this.prepareEveryoneElseForRelease = function (listDiv, itemsArr, currentDropIndex) {
-        prepareEveryoneElseForRelease(listDiv, itemsArr, currentDropIndex);
     };
 
     this.shiftHintDiv = function (hintDiv) {
@@ -93,43 +89,19 @@ function SportyListDnDInteractionUtil() {
         hintDiv.jjQuickTransform(0, yShift);
     }
 
-    function prepareEveryoneElseForRelease(listDiv, itemsArr, currentDropIndex) {
-        let shiftItems = [];
-        let item;
-        for (let i = 0; i < itemsArr.length; i++) {
-            item = itemsArr[i];
-            if (item.bcDelta && i !== currentDropIndex) {
-                shiftItems.push(item);
-            }
-        }
-        if (shiftItems.length > 0) {
-            for (let shiftItem of shiftItems) {
-                adjustItemTransitionForReleaseAnimation(shiftItem)
-            }
-            listDiv.jjForceStyleRecalc();
-            for (let shiftItem of shiftItems) {
-                shiftItem.style.transition = null;
-                shiftItem.jjQuickTransform(0, 0);
-            }
-        }
-    }
-
-    function adjustItemTransitionForReleaseAnimation(item) {
-        item.jjQuickTransform(0, item.bcDelta)
-    }
-
     /** Mouse Stuff **/
-    function getIsMouseStillOnSamePositionRelativeToShiftItem(shiftItem, currentMouseEvent, dropHintDiv, triggeredByMouseMove) {
+    function getIsMouseStillOnSamePositionRelativeToShiftItem(shiftItem, currentMouseEvent, dropHintDiv, listBCRect, scrollTop, triggeredByMouseMove) {
         if (shiftItem) {
             let shiftItemHeight = shiftItem.jjFullHeight;
             let shiftItemTop = shiftItem.jjTop;
-            let isMouseStillInsideSameItem = getIsInside(currentMouseEvent.clientY, shiftItemHeight, shiftItemTop);
+            let relativeY = currentMouseEvent.clientY - listBCRect.top + scrollTop
+            let isMouseStillInsideSameItem = getIsInside(relativeY, shiftItemHeight, shiftItemTop);
             if (isMouseStillInsideSameItem) {
                 if (!triggeredByMouseMove) {
                     return true;
                 }
                 let isDropTargetAboveShiftItem = (dropHintDiv.jjTop < shiftItemTop);
-                let mousePosition = getMousePositionInThirds(currentMouseEvent.clientY, shiftItemHeight, shiftItemTop);
+                let mousePosition = getMousePositionInThirds(relativeY, shiftItemHeight, shiftItemTop);
                 let mouseOnTopAndTargetAbove = (mousePosition !== POSITIONS.bottomThird && isDropTargetAboveShiftItem);
                 let mouseOnBottomAndTargetBelow = (mousePosition !== POSITIONS.topThird && !isDropTargetAboveShiftItem);
                 if (mouseOnTopAndTargetAbove || mouseOnBottomAndTargetBelow) {
@@ -150,8 +122,8 @@ function SportyListDnDInteractionUtil() {
         }
     }
 
-    function getIsInside(y, itemHeight, itemTop) {
-        return (y >= itemTop && (y < itemTop + itemHeight));
+    function getIsInside(relativeY, itemHeight, itemTop) {
+        return (relativeY >= itemTop && (relativeY < itemTop + itemHeight));
     }
 
     /** Class Assignments **/
