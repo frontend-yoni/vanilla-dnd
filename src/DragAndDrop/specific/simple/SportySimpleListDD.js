@@ -426,8 +426,16 @@ function SportySimpleListDD(noMarginBetweenItems, restoreDomWhenDone) {
     }
 
     function calculateActualBCRect() {
-        let bcRect = listDiv.getBoundingClientRect().toJSON();
+        let origBCRect = listDiv.getBoundingClientRect();
         let scrollDivBCRect = scrollDiv.getBoundingClientRect();
+
+        let bcRect = {
+            top: origBCRect.top,
+            height: origBCRect.height,
+            left: origBCRect.left,
+            right: origBCRect.right,
+        };
+
         bcRect.top = scrollDivBCRect.top;
         bcRect.height = Math.min(bcRect.height, scrollDivBCRect.height);
         return bcRect;
